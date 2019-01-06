@@ -8,11 +8,13 @@ class Book {
 class UI {
   addBookToList(book) {
     const list = document.getElementById('book-list'),
-          row = document.createElement('tr');
+      row = document.createElement('div');
     row.innerHTML = `
-      <td>${book.title}</td>
-      <td>${book.author}</td>
-      <td><a href="#" class="delete">X</a></td>
+      <div class="book-list__container">
+        <div class="book-list__item">${book.author}</div>
+        <div class="book-list__item">${book.title}</div>
+        <div class="book-list__item--delete"><a href="#" class="delete">X</a></div>
+      </div>
     `;
     list.appendChild(row);
   }
@@ -20,14 +22,22 @@ class UI {
   showAlert(message, className) {
     const div = document.createElement('div'),
           container = document.querySelector('.container'),
-          form = document.querySelector('#book-form');
-    div.className = `alert ${className}`;
-    div.appendChild(document.createTextNode(message));
-    container.insertBefore(div, form);
-    setTimeout(function() {
-      document.querySelector('.alert').remove();
-    }, 3000);
+          form = document.querySelector('#book-form'),
+          currentAlert = document.querySelector('.alert');
+    if (!currentAlert) {
+      div.className = `alert ${className}`;
+      div.appendChild(document.createTextNode(message));
+      container.insertBefore(div, form);
+      setTimeout(function () {
+        document.querySelector('.alert').remove();
+      }, 3000);
+    } else {
+      currentAlert.textContent = '';
+      currentAlert.className = `alert ${className}`;
+      currentAlert.appendChild(document.createTextNode(message));
+    }
   }
+  
 
   deleteBook(target) {
      if(target.className === 'delete') {
@@ -66,10 +76,10 @@ class Store {
     localStorage.setItem('books', JSON.stringify(books));
   }
 
-  static removeBook(author) {
+  static removeBook(title) {
     const books = Store.getBooks();
     books.forEach(function(book, index) {
-      if(book.author === author)
+      if(book.title === title)
       books.splice(index, 1);
     });
     localStorage.setItem('books', JSON.stringify(books));
