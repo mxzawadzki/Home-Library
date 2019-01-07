@@ -8,10 +8,35 @@ class Book {
 class UI {
   addBookToList(book) {
     const list = document.getElementById('book-list'),
-      row = document.createElement('div');
+          row = document.createElement('div');
+
+    function generateRandomCover() {
+      function getRandomNumber(max) {
+        return Math.floor(Math.random() * Math.floor(max));
+      }
+      let bookCover = getRandomNumber(4);
+      let cover;
+      switch (bookCover) {
+        case 0:
+          cover = '📕';
+          break;
+        case 1:
+          cover = '📗';
+          break;
+        case 2:
+          cover = '📘';
+          break;
+        case 3:
+          cover = '📙';
+          break;
+      }
+      return cover;
+    }
+    let generateCover = generateRandomCover();
+
     row.innerHTML = `
       <div class="book-list__container">
-        <div class="book-list__item">${book.author}</div>
+        <div class="book-list__item">${generateCover} ${book.author}</div>
         <div class="book-list__item">${book.title}</div>
         <div class="book-list__item--delete"><a href="#" class="delete">X</a></div>
       </div>
