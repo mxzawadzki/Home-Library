@@ -9,7 +9,6 @@ class UI {
   addBookToList(book) {
     const list = document.getElementById('book-list'),
           row = document.createElement('div');
-
     function generateRandomCover() {
       function getRandomNumber(max) {
         return Math.floor(Math.random() * Math.floor(max));
@@ -33,7 +32,6 @@ class UI {
       return cover;
     }
     let generateCover = generateRandomCover();
-
     row.innerHTML = `
       <div class="book-list__container">
         <div class="book-list__item">${generateCover} ${book.author}</div>
@@ -62,7 +60,6 @@ class UI {
       currentAlert.appendChild(document.createTextNode(message));
     }
   }
-  
 
   deleteBook(target) {
      if(target.className === 'delete') {
@@ -115,9 +112,8 @@ document.addEventListener('DOMContentLoaded', Store.displayBooks);
 
 document.getElementById('book-form').addEventListener('submit', function (e) {
   const title = document.getElementById('title').value,
-        author = document.getElementById('author').value;
-
-  const book = new Book(title, author),
+        author = document.getElementById('author').value,
+        book = new Book(title, author),
         ui = new UI();
 
   if (title === '' || author === '') {
